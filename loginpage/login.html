@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+  </head>
+  <style>
+    div {
+      width: fit-content;
+      margin: 0 auto;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+  <body>
+    <div>
+      <form id="myForm" action="#">
+        <input placeholder="username" id="username" type="text" />
+        <input placeholder="password" id="password" type="text" />
+        <button type="submit">login</button>
+      </form>
+    </div>
+  </body>
+  <script>
+
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+    const submitBtn = document.getElementById("submit-btn");
+    const myForm = document.getElementById("myForm");
+    const login = async () => {
+      if(username.value ==="" || password.value ===""){
+        alert("Nhap tai khoan va mat khau");
+        return
+      }
+      const data = {
+        username: username.value,
+        password: password.value,
+      };
+      const res = await fetch("http://localhost:3000", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      _res = await res.json();
+      if (_res.success === true) {
+        // window.location.href = `http://localhost:8080/index.html?userid=${_res.user._id}`;
+        console.log(data)
+      } else {
+        alert(_res.message);
+      }
+    };
+
+    myForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      login();
+    });
+  </script>
+</html>
